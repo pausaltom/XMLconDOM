@@ -22,33 +22,55 @@ public class ActividadXMLDOM {
         Scanner leerTeclado = new Scanner(System.in);
         // TODO code application logic here
         File fichero = new File("./src/actividadxmldom/Comida.xml");
-        
+
         XMLconDOM xmldom = new XMLconDOM(fichero);
+
+        Document doc = xmldom.abrirXML(fichero);
+        boolean repetir = false;
+        boolean repetirId = false;
+        String idString = "";
         
-       Document doc =xmldom.abrirXML(fichero);
-       boolean repetir = false;
-        do {            
+        String salida = xmldom.recorrerDOMyMostrar(doc);
+
+        System.out.println(salida);
+        do {
+            
             System.out.println("Desea modificar el archivo XML?(s/n)");
             String respuesta = leerTeclado.nextLine().toLowerCase();
-            if (respuesta == "s" | respuesta == "n") {
+            
+            if (respuesta.equals("s") | respuesta.equals("n")) {
                 repetir = false;
-                if (respuesta == "s") {
-                    System.out.println("Porfavor introduzca el id del registro que quiere cambiar:");
-                    int id = leerTeclado.nextInt();
-                }else{
-                    return ;
+                if (respuesta.equals("s")) {
+                    do {
+                        System.out.println("Porfavor introduzca el id del registro que quiere cambiar:");
+                        int id = leerTeclado.nextInt();
+                        leerTeclado.nextLine();
+                        repetirId = !xmldom.comprobarIdValida(doc, id);
+                        idString = Integer.toString(id);
+                    } while (repetirId);
+                    System.out.println("Porfavor introduzca el name modificado: ");
+                    String newName = leerTeclado.nextLine();
+                    System.out.println("Porfavor introduzca el price modificado: ");
+                    String newPrice = leerTeclado.nextLine();
+                    System.out.println("Porfavor introduzca la description modificado: ");
+                    String newDescription = leerTeclado.nextLine();
+                    System.out.println("Porfavor introduzca las calories modificado: ");
+                    String newCalories = leerTeclado.nextLine();
+                    
+                    xmldom.Update(doc, idString, newName, newPrice, newDescription, newCalories);
+                } else {
+                    return;
                 }
-                
+
             } else {
                 System.out.println("Respuesta no válida");
                 repetir = true;
             }
         } while (repetir);
-       String salida =xmldom.recorrerDOMyMostrar(doc);
-       
-        System.out.println(salida);
-        
-        
+        String salidaModificada = xmldom.recorrerDOMyMostrar(doc);
+
+        System.out.println(salidaModificada);
+
     }
-    
+
 }

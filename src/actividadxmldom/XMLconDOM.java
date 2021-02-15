@@ -57,6 +57,22 @@ public class XMLconDOM {
 
     }
 
+    public boolean comprobarIdValida(Document doc, int id) {
+        try {
+            NodeList nl = doc.getElementsByTagName("food");
+//            System.out.println("nodelist " + nl.getLength());
+            if(!(id <= 0 | id > nl.getLength())) {
+                return true;
+            }else {
+                return false;
+            }
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return false;
+    }
+
     public String recorrerDOMyMostrar(Document doc) {
         String datos_nodo[] = null;
         String salida = "";
@@ -69,6 +85,7 @@ public class XMLconDOM {
 
         //Procesa los nodos hijo
         for (int i = 0; i < nodelist.getLength(); i++) {
+
             node = nodelist.item(i);
 
             if (node.getNodeType() == Node.ELEMENT_NODE) {
@@ -119,7 +136,7 @@ public class XMLconDOM {
                     food.getElementsByTagName("name").item(0)
                             .setTextContent(name);
                     food.getElementsByTagName("price").item(0)
-                            .setTextContent(price);
+                            .setTextContent("$"+price);
                     food.getElementsByTagName("description").item(0)
                             .setTextContent(description);
                     food.getElementsByTagName("calories").item(0)
