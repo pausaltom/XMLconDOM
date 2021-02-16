@@ -5,7 +5,11 @@
  */
 package actividadxmldom;
 
+import com.sun.org.apache.xml.internal.serialize.OutputFormat;
+import com.sun.org.apache.xml.internal.serialize.Serializer;
+import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
 import java.io.File;
+import java.io.FileOutputStream;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.OutputKeys;
@@ -23,16 +27,6 @@ import org.w3c.dom.NodeList;
  * @author Alumno
  */
 public class XMLconDOM {
-
-    private File fichero;
-
-    public XMLconDOM(File fichero) {
-        this.fichero = fichero;
-    }
-
-    public void setFichero(File fichero) {
-        this.fichero = fichero;
-    }
 
     public Document abrirXML(File fichero) {
         Document doc = null;//Representa al árbol DOM
@@ -56,8 +50,6 @@ public class XMLconDOM {
         }
 
     }
-
-   
 
     public String recorrerDOMyMostrar(Document doc) {
         String datos_nodo[] = null;
@@ -128,7 +120,7 @@ public class XMLconDOM {
                             .setTextContent(name);
                     // Cambiamos el price 
                     food.getElementsByTagName("price").item(0)
-                            .setTextContent("$"+price);
+                            .setTextContent("$" + price);
                     // Cambiamos la description 
                     food.getElementsByTagName("description").item(0)
                             .setTextContent(description);
@@ -138,25 +130,42 @@ public class XMLconDOM {
                 }
             }
             //write to file
-            saveXMLContent(doc, "./src/actividadxmldom/Comida.xml");
+            guardarDOMcomoFILE(doc, "./src/actividadxmldom/Comida.xml");
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
 
     }
 
-    public static void saveXMLContent(Document doc, String path) {
+//    public static void saveXMLContent(Document doc, String path) {
+//        try {
+//            TransformerFactory tff = TransformerFactory.newInstance();
+//            Transformer tf = tff.newTransformer();
+//            tf.setOutputProperty(OutputKeys.INDENT, "yes");
+//            DOMSource ds = new DOMSource(doc);
+//            StreamResult sr = new StreamResult(path);
+//            tf.transform(ds, sr);
+//        } catch (Exception e) {
+//            System.out.println(e.getMessage());
+//        }
+//
+//    }
+
+    public void guardarDOMcomoFILE(Document doc,String ruta) {
         try {
-            TransformerFactory tff = TransformerFactory.newInstance();
-            Transformer tf = tff.newTransformer();
-            tf.setOutputProperty(OutputKeys.INDENT, "yes");
-            DOMSource ds = new DOMSource(doc);
-            StreamResult sr = new StreamResult(path);
-            tf.transform(ds, sr);
+            //Crea un fichero llamado salida.xml
+            File archivo_xml = new File(ruta);
+            //Especifica el formato desalida
+            OutputFormat format = new OutputFormat(doc);
+            //Especifica que la salida esté indentada.
+            format.setIndenting(true);
+            //Escribe el contenido en el File
+            XMLSerializer serializer = new XMLSerializer(new FileOutputStream(archivo_xml), format);
+            serializer.serialize(doc);
+            
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-
     }
 
 }

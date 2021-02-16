@@ -23,7 +23,7 @@ public class ActividadXMLDOM {
         // Creamos el fichero 
         File fichero = new File("./src/actividadxmldom/Comida.xml");
         //Instanciamos la clase XMLconDOM donde estan todos los métodos para trabajar con archivos XML
-        XMLconDOM xmldom = new XMLconDOM(fichero);
+        XMLconDOM xmldom = new XMLconDOM();
         //Creamos un objeto Document que recoja la respuesta de abrirXML 
         Document doc = xmldom.abrirXML(fichero);
         // Creamos un string que recoja la respuesta de recorrerDOM... el cual le hemos enviado el objeto Document
@@ -32,7 +32,7 @@ public class ActividadXMLDOM {
         System.out.println(salida);
         // Llamamos al método Update que como sunombre indica, su función 
         // es modificar el archivo xml y tambien llama a un método "savexml" que guarda los cambios 
-        xmldom.Update(doc, "4", "Potato Omeltette", "6.7", "Typical spanish meal", "780");
+        xmldom.Update(doc, "4", "Potato Omelette", "6.7", "Typical spanish meal", "780");
         // Creamos un string que recoja la respuesta de recorrerDOM... el cual le hemos enviado el objeto Document
         String salidaModificada = xmldom.recorrerDOMyMostrar(doc);
         // Mostramos el archivo xml con los cambios guardados
