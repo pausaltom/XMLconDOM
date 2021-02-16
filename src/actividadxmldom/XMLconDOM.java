@@ -57,21 +57,7 @@ public class XMLconDOM {
 
     }
 
-    public boolean comprobarIdValida(Document doc, int id) {
-        try {
-            NodeList nl = doc.getElementsByTagName("food");
-//            System.out.println("nodelist " + nl.getLength());
-            if(!(id <= 0 | id > nl.getLength())) {
-                return true;
-            }else {
-                return false;
-            }
-
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-        return false;
-    }
+   
 
     public String recorrerDOMyMostrar(Document doc) {
         String datos_nodo[] = null;
@@ -128,17 +114,25 @@ public class XMLconDOM {
 
     public void Update(Document doc, String id, String name, String price, String description, String calories) {
         try {
+            //Creamos un nodelist de etiquetas food
             NodeList nl = doc.getElementsByTagName("food");
+            //Recorremos los nodos food
             for (int i = 0; i < nl.getLength(); i++) {
+                //creamos un elemento food para cada nodo food para poder modificar el contenido del xml 
                 Element food = (Element) nl.item(i);
+                // comparamos el id de entrada con los ids del fichero para ubicar el "puntero" en esa posición
                 if (food.getElementsByTagName("id").item(0).getTextContent()
                         .equals(id)) {
+                    // Cambiamos el name 
                     food.getElementsByTagName("name").item(0)
                             .setTextContent(name);
+                    // Cambiamos el price 
                     food.getElementsByTagName("price").item(0)
                             .setTextContent("$"+price);
+                    // Cambiamos la description 
                     food.getElementsByTagName("description").item(0)
                             .setTextContent(description);
+                    // Cambiamos las calories 
                     food.getElementsByTagName("calories").item(0)
                             .setTextContent(calories);
                 }

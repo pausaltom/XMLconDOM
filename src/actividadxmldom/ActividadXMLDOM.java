@@ -20,55 +20,23 @@ public class ActividadXMLDOM {
      */
     public static void main(String[] args) {
         Scanner leerTeclado = new Scanner(System.in);
-        // TODO code application logic here
+        // Creamos el fichero 
         File fichero = new File("./src/actividadxmldom/Comida.xml");
-
+        //Instanciamos la clase XMLconDOM donde estan todos los métodos para trabajar con archivos XML
         XMLconDOM xmldom = new XMLconDOM(fichero);
-
+        //Creamos un objeto Document que recoja la respuesta de abrirXML 
         Document doc = xmldom.abrirXML(fichero);
-        boolean repetir = false;
-        boolean repetirId = false;
-        String idString = "";
-        
+        // Creamos un string que recoja la respuesta de recorrerDOM... el cual le hemos enviado el objeto Document
         String salida = xmldom.recorrerDOMyMostrar(doc);
-
+        // Mostramos la salida antes de las modificaciones
         System.out.println(salida);
-        do {
-            
-            System.out.println("Desea modificar el archivo XML?(s/n)");
-            String respuesta = leerTeclado.nextLine().toLowerCase();
-            
-            if (respuesta.equals("s") | respuesta.equals("n")) {
-                repetir = false;
-                if (respuesta.equals("s")) {
-                    do {
-                        System.out.println("Porfavor introduzca el id del registro que quiere cambiar:");
-                        int id = leerTeclado.nextInt();
-                        leerTeclado.nextLine();
-                        repetirId = !xmldom.comprobarIdValida(doc, id);
-                        idString = Integer.toString(id);
-                    } while (repetirId);
-                    System.out.println("Porfavor introduzca el name modificado: ");
-                    String newName = leerTeclado.nextLine();
-                    System.out.println("Porfavor introduzca el price modificado: ");
-                    String newPrice = leerTeclado.nextLine();
-                    System.out.println("Porfavor introduzca la description modificado: ");
-                    String newDescription = leerTeclado.nextLine();
-                    System.out.println("Porfavor introduzca las calories modificado: ");
-                    String newCalories = leerTeclado.nextLine();
-                    
-                    xmldom.Update(doc, idString, newName, newPrice, newDescription, newCalories);
-                } else {
-                    return;
-                }
-
-            } else {
-                System.out.println("Respuesta no válida");
-                repetir = true;
-            }
-        } while (repetir);
+        // Llamamos al método Update que como sunombre indica, su función 
+        // es modificar el archivo xml y tambien llama a un método "savexml" que guarda los cambios 
+        xmldom.Update(doc, "4", "Potato Omeltette", "6.7", "Typical spanish meal", "780");
+        // Creamos un string que recoja la respuesta de recorrerDOM... el cual le hemos enviado el objeto Document
         String salidaModificada = xmldom.recorrerDOMyMostrar(doc);
-
+        // Mostramos el archivo xml con los cambios guardados
+        System.out.println("    Archivo modificado:");
         System.out.println(salidaModificada);
 
     }
